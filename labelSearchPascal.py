@@ -1,39 +1,36 @@
-import os
-from xml.etree import ElementTree
-import matplotlib
+import scipy
+from scipy import ndimage
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 import numpy as np
 from skimage.io import imshow, imread
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB, BernoulliNB
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn import ensemble
-from sklearn.metrics import accuracy_score
-import cv2
-from sklearn.multiclass import OneVsRestClassifier
+from scipy import misc
+import scipy.misc
+from PIL import Image
 
+# img = imread("E:\Projects\ExtractingImageFeaturesHSV\VOCdevkit\VOC2007\JPEGImages\\000020.jpg")
+img_pil = Image.open("E:\Projects\ExtractingImageFeaturesHSV\VOCdevkit\VOC2007\JPEGImages\\000023.jpg")
+new_img = img_pil.resize((256, 256))
+img = np.array(new_img)
+img_hsv = colors.rgb_to_hsv(img[...,:3])
+(hist, _) = np.histogram(img_hsv.ravel(), bins=np.arange(0,128+1), range=(0,128))
+hist = hist.astype("float")
+hist /= (hist.sum() + 1e-6)
 
-annotations_path = "F:\Projects\MEDH_projects\DatabasesConstructor\VOCdevkit\VOC2007\Annotations"
-images_path = "F:\Projects\MEDH_projects\DatabasesConstructor\VOCdevkit\VOC2007\JPEGImages"
-segmentation_path = "F:\Projects\MEDH_projects\DatabasesConstructor\VOCdevkit\VOC2007\SegmentationClass"
-# dataset_dict = {}
-#
-#
-# file_path = os.path.join(annotations_path, "000001.xml")
-# dom = ElementTree.parse(file_path)
-# objects = dom.findall("object")
-# for object in objects:
-#     if len(objects) == 1:
-#         object_label = object.find("name").text
-#     elif object.find("truncated").text == "1":
-#         continue
-#     else:
-#         object_label = object.find("name").text
-#         break
-#
-#
-# print(object_label)
+print(hist)
 
+# array=np.asarray(img)
+# arr=(array.astype(float))/255.0
+# img_hsv = colors.rgb_to_hsv(arr[...,:3])
+#
+# lu1=img_hsv[...,0].flatten()
+# plt.hist(lu1*360,bins=360,range=(0.0,360.0), label='Hue')
+# plt.title("Hue")
+# plt.xlabel("Value")
+# plt.ylabel("Frequency")
+# plt.legend()
+# plt.show()
+#
+# print(lu1)
+# print(len(lu1))
 
